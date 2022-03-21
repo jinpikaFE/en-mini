@@ -1,21 +1,24 @@
-import { Component } from 'react'
+import Taro, { useReady, useDidShow } from '@tarojs/taro';
+import { Component, useEffect } from 'react'
 import "taro-ui/dist/style/index.scss"; 
 import './app.less'
 
-class App extends Component {
+const App = (props) => {
+  useEffect(() => {
+    const query = Taro.login({
+      success (res) {
+        if (res.code) {
+          console.log(res);
+          
+        } else {
+          console.log('登录失败！' + res.errMsg)
+        }
+      }
+    })
+    
+  },[])
 
-  componentDidMount () {}
-
-  componentDidShow () {}
-
-  componentDidHide () {}
-
-  componentDidCatchError () {}
-
-  // this.props.children 是将要会渲染的页面
-  render () {
-    return this.props.children
-  }
+  return props.children
 }
 
 export default App

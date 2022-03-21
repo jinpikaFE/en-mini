@@ -1,9 +1,11 @@
 import { View, Text } from '@tarojs/components';
+import { useEffect } from 'react';
 import { AtButton } from 'taro-ui';
 
 import styles from './index.module.less';
 
 const Index = () => {
+  
   return (
     <View className={styles.index}>
       <Text>Hello world!</Text>
