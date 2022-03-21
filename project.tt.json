@@ -1,0 +1,13 @@
+{
+  "miniprogramRoot": "./",
+  "projectname": "en—mini",
+  "description": "英语学习小程序",
+  "appid": "touristappid",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram"
+}
