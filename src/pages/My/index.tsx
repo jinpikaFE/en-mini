@@ -1,24 +1,36 @@
 import { View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { Observer } from 'mobx-react';
-import { useEffect } from 'react';
-import {  AtList, AtListItem } from 'taro-ui';
-import { localGlobal } from '@/store/global';
+import { useEffect, useState } from 'react';
+import { AtList, AtListItem } from 'taro-ui';
 import { localUser } from '@/store/user';
 
 import styles from './index.module.less';
 
 const Index: Taro.FC = () => {
+  const [webUrl, setWebUrl] = useState('')
   useEffect(() => {
     Taro.getUserProfile({
-      desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      desc: 'used fixd userinfo',
       success: (res) => {
-
-        // 开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
         localUser.setUserInfo(res.userInfo);
       },
     });
   }, []);
+
+  /** add study task */
+  const onClickAddTask = () => {
+    Taro.scanCode({
+      success: (res) => {
+        console.log(res);
+      },
+    });
+  };
+
+  /** skip url */
+  const onClickSkip = (url: string) => {
+    setWebUrl(url)
+  }
 
   return (
     <Observer>
@@ -31,9 +43,16 @@ const Index: Taro.FC = () => {
               title={localUser?.userInfo?.nickName}
               thumb={localUser?.userInfo?.avatarUrl}
               arrow='right'
+              onClick={()=> Taro.navigateTo({url: '/pages/My/UserInfo/index'})}
             />
           </AtList>
-          {localGlobal.count}
+          <AtList className={styles.actList}>
+            <AtListItem onClick={()=>onClickSkip('http://blog.jinxinapp.cn/#/')} title='AuthorGithub' arrow='right' />
+            <AtListItem onClick={()=>onClickSkip('https://github.com/jinpikaFE')} title='JinPika Personal Blog' arrow='right' />
+            <AtListItem onClick={onClickAddTask} title='ScanCode' arrow='right' />
+            <AtListItem title='About' arrow='right' />
+          </AtList>
+          
         </View>
       )}
     </Observer>

@@ -1,4 +1,3 @@
-import { View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { useEffect } from 'react';
 
@@ -12,13 +11,13 @@ const App = (props) => {
         if (res.code) {
           console.log(res);
         } else {
-          console.log('登录失败！' + res.errMsg);
+          console.log('login failure！' + res.errMsg);
         }
       },
     });
   }, []);
 
-  return <View className='app'>{props.children}</View>;
+  return props.children;
 };
 
 export default App;

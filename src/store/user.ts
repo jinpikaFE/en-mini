@@ -4,11 +4,10 @@ import { makeAutoObservable } from 'mobx';
 class User {
   userInfo: Partial<UserInfo> = {}
   constructor() {
-    // 必须加 直接监听不需要装饰器
     makeAutoObservable(this);
   }
 
-  /** 设置用户信息 */
+  /** set userinfo */
   setUserInfo = (params) => {
     this.userInfo = params
   };
