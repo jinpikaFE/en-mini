@@ -1,6 +1,7 @@
 export default {
   pages: ['pages/index/index','pages/My/index'],
   window: {
+    backgroundColor: '#f5f5f5',
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',
     navigationBarTitleText: 'WeChat',

@@ -1,6 +1,5 @@
 import { View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { Observer } from 'mobx-react';
 import { useEffect } from 'react';
 
 import 'taro-ui/dist/style/index.scss';
@@ -19,7 +18,7 @@ const App = (props) => {
     });
   }, []);
 
-  return props.children;
+  return <View className='app'>{props.children}</View>;
 };
 
 export default App;

@@ -1,3 +1,20 @@
+@list: ~'at-list';
+
 .container {
-  background-color: red;
+  :global {
+    .@{list}__item-container {
+      height: 100px;
+
+      .userInfo {
+        background: linear-gradient(to bottom,blue, pink);
+      }
+
+      .@{list}__item-thumb {
+        width: 100px;
+        height: 100px;
+        border-radius: 15px;
+        overflow: hidden;
+      }
+    }
+  }
 }

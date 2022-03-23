@@ -1,36 +1,38 @@
-import { View, Text } from '@tarojs/components';
-import Taro, { UserInfo } from '@tarojs/taro';
-import { Observer, useObserver } from 'mobx-react';
-import { useEffect, useState } from 'react';
-import { AtAvatar, AtButton } from 'taro-ui';
+import { View } from '@tarojs/components';
+import Taro from '@tarojs/taro';
+import { Observer } from 'mobx-react';
+import { useEffect } from 'react';
+import {  AtList, AtListItem } from 'taro-ui';
 import { localGlobal } from '@/store/global';
+import { localUser } from '@/store/user';
 
 import styles from './index.module.less';
 
-
 const Index: Taro.FC = () => {
-  const [userInfo, setUserInfo] = useState<UserInfo>()
-  
-  useEffect(()=>{
-    Taro.getUserInfo({
-      success: function(res) {
-        setUserInfo(res?.userInfo)
+  useEffect(() => {
+    Taro.getUserProfile({
+      desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      success: (res) => {
 
-        console.log(res);
-        
-      }
-    })
-  },[])
+        // 开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
+        localUser.setUserInfo(res.userInfo);
+      },
+    });
+  }, []);
 
   return (
     <Observer>
       {() => (
         <View className={styles.container}>
-          {userInfo?.nickName}
-          <AtAvatar circle image={userInfo?.avatarUrl} />
-          <AtButton type='primary' onClick={() => localGlobal.setCount()}>
-            SSSS
-          </AtButton>
+          <AtList hasBorder={false}>
+            <AtListItem
+              className={styles.userInfo}
+              hasBorder={false}
+              title={localUser?.userInfo?.nickName}
+              thumb={localUser?.userInfo?.avatarUrl}
+              arrow='right'
+            />
+          </AtList>
           {localGlobal.count}
         </View>
       )}
