@@ -1,5 +1,11 @@
 export default {
-  pages: ['pages/index/index', 'pages/My/index', 'pages/My/UserInfo/index'],
+  pages: [
+    'pages/index/index',
+    'pages/My/index',
+    'pages/My/UserInfo/index',
+    'pages/WebView/index',
+    'pages/Login/index',
+  ],
   window: {
     backgroundColor: '#f5f5f5',
     backgroundTextStyle: 'light',

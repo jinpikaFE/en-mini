@@ -1,7 +1,7 @@
 {
   "miniprogramRoot": "./",
-  "projectname": "en—mini",
-  "description": "英语学习小程序",
+  "projectname": "mallmini",
+  "description": "3d商城小程序",
   "appid": "touristappid",
   "setting": {
     "urlCheck": true,

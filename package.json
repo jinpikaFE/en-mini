@@ -1,8 +1,8 @@
 {
-  "name": "enmini",
+  "name": "mallmini",
   "version": "1.0.0",
   "private": true,
-  "description": "英语学习小程序",
+  "description": "3d商城小程序",
   "templateInfo": {
     "name": "taro-ui",
     "typescript": true,
@@ -41,9 +41,12 @@
     "@tarojs/react": "3.1.4",
     "@tarojs/runtime": "3.1.4",
     "@tarojs/taro": "3.1.4",
+    "ahooks": "^3.4.0",
+    "async-validator": "^4.1.1",
     "lodash": "4.17.15",
     "mobx": "^6.5.0",
     "mobx-react": "^7.3.0",
+    "rc-field-form": "^1.26.6",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "taro-ui": "^3.0.0-alpha.3"

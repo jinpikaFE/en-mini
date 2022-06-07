@@ -1,58 +1,213 @@
-import { View } from '@tarojs/components';
+import { localUser } from '@/store/user';
+import { View, Text, ScrollView } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { Observer } from 'mobx-react';
-import { useEffect, useState } from 'react';
-import { AtList, AtListItem } from 'taro-ui';
-import { localUser } from '@/store/user';
+import { AtAvatar, AtButton, AtCard } from 'taro-ui';
 
 import styles from './index.module.less';
 
 const Index: Taro.FC = () => {
-  const [webUrl, setWebUrl] = useState('')
-  useEffect(() => {
-    Taro.getUserProfile({
-      desc: 'used fixd userinfo',
-      success: (res) => {
-        localUser.setUserInfo(res.userInfo);
-      },
-    });
-  }, []);
-
-  /** add study task */
-  const onClickAddTask = () => {
-    Taro.scanCode({
-      success: (res) => {
-        console.log(res);
-      },
-    });
-  };
-
-  /** skip url */
-  const onClickSkip = (url: string) => {
-    setWebUrl(url)
-  }
-
   return (
     <Observer>
       {() => (
         <View className={styles.container}>
-          <AtList hasBorder={false}>
-            <AtListItem
-              className={styles.userInfo}
-              hasBorder={false}
-              title={localUser?.userInfo?.nickName}
-              thumb={localUser?.userInfo?.avatarUrl}
-              arrow='right'
-              onClick={()=> Taro.navigateTo({url: '/pages/My/UserInfo/index'})}
-            />
-          </AtList>
-          <AtList className={styles.actList}>
-            <AtListItem onClick={()=>onClickSkip('http://blog.jinxinapp.cn/#/')} title='AuthorGithub' arrow='right' />
-            <AtListItem onClick={()=>onClickSkip('https://github.com/jinpikaFE')} title='JinPika Personal Blog' arrow='right' />
-            <AtListItem onClick={onClickAddTask} title='ScanCode' arrow='right' />
-            <AtListItem title='About' arrow='right' />
-          </AtList>
-          
+          <View className={`${styles.userInfoContent}`}>
+            <View
+              className={`at-row at-row__justify--start ${styles.userInfoDesc}`}
+            >
+              <AtAvatar size="small" circle />
+              <View className={styles.userInfoMes}>
+                <View className={`${styles.userInfoText} ${styles.username}`}>
+                  用户名
+                </View>
+                <View className={`${styles.userInfoText} ${styles.isVip}`}>
+                  非会员
+                </View>
+                {!localUser.userInfo && (
+                  <View
+                    className={`${styles.userInfoText}`}
+                    onClick={() =>
+                      Taro.navigateTo({ url: '/pages/Login/index' })
+                    }
+                  >
+                    未登录
+                  </View>
+                )}
+              </View>
+            </View>
+            <View
+              className={`at-row at-row__justify--between at-row__align--center ${styles.memberInfo}`}
+            >
+              <View className={`at-col ${styles.left}`}>会员</View>
+              <View className={`${styles.right}`}>
+                <Text>开通会员省 12312/年</Text>
+                <AtButton className={styles.open} circle>
+                  立即开通
+                </AtButton>
+              </View>
+            </View>
+          </View>
+          <View className={`${styles.cardContent}`}>
+            <AtCard
+              title="订单信息"
+              isFull
+              renderIcon={
+                <Text className={`iconfont icon-ording ${styles.titleIcon}`} />
+              }
+            >
+              <View className="at-row">
+                <View className="at-col">
+                  <Text
+                    className={`iconfont icon-wallet ${styles.itemIcon}`}
+                  ></Text>
+                  <View className={styles.itemText}>待付款</View>
+                </View>
+                <View className="at-col">
+                  <Text
+                    className={`iconfont icon-slive-goods ${styles.itemIcon}`}
+                  ></Text>
+                  <View className={styles.itemText}>待发货</View>
+                </View>
+                <View className="at-col">
+                  <Text
+                    className={`iconfont icon-receive-goods ${styles.itemIcon}`}
+                  ></Text>
+                  <View className={styles.itemText}>待收货</View>
+                </View>
+                <View className="at-col">
+                  <Text
+                    className={`iconfont icon-refund ${styles.itemIcon}`}
+                  ></Text>
+                  <View className={styles.itemText}>退货退款</View>
+                </View>
+                <View className="at-col">
+                  <Text
+                    className={`iconfont icon-all-ording ${styles.itemIcon}`}
+                  ></Text>
+                  <View className={styles.itemText}>全部订单</View>
+                </View>
+              </View>
+            </AtCard>
+          </View>
+          <View className={`${styles.cardContent}`}>
+            <AtCard
+              title="开通会员享权益"
+              isFull
+              renderIcon={
+                <Text className={`iconfont icon-member ${styles.titleIcon}`} />
+              }
+              note="开通会员，每年省 3233元"
+            >
+              <ScrollView scrollX>
+                <View className="at-row">
+                  <View className={styles.imgItem}>
+                    <AtAvatar
+                      size="small"
+                      className={styles.imgItemAvatar}
+                      circle
+                    />
+                    <View className={styles.itemText}>免运费</View>
+                  </View>
+                  <View className={styles.imgItem}>
+                    <AtAvatar
+                      size="small"
+                      className={styles.imgItemAvatar}
+                      circle
+                    />
+                    <View className={styles.itemText}>享受成本价</View>
+                  </View>
+                  <View className={styles.imgItem}>
+                    <AtAvatar
+                      size="small"
+                      className={styles.imgItemAvatar}
+                      circle
+                    />
+                    <View className={styles.itemText}>生日礼物</View>
+                  </View>
+                  <View className={styles.imgItem}>
+                    <AtAvatar
+                      size="small"
+                      className={styles.imgItemAvatar}
+                      circle
+                    />
+                    <View className={styles.itemText}>每月好礼</View>
+                  </View>
+                  <View className={styles.imgItem}>
+                    <AtAvatar
+                      size="small"
+                      className={styles.imgItemAvatar}
+                      circle
+                    />
+                    <View className={styles.itemText}>3C尝鲜价</View>
+                  </View>
+                  <View className={styles.imgItem}>
+                    <AtAvatar
+                      size="small"
+                      className={styles.imgItemAvatar}
+                      circle
+                    />
+                    <View className={styles.itemText}>3C尝鲜价</View>
+                  </View>
+                  <View className={styles.imgItem}>
+                    <AtAvatar
+                      size="small"
+                      className={styles.imgItemAvatar}
+                      circle
+                    />
+                    <View className={styles.itemText}>3C尝鲜价</View>
+                  </View>
+                </View>
+              </ScrollView>
+            </AtCard>
+          </View>
+          <View className={`${styles.cardContent}`}>
+            <AtCard
+              title="我的服务"
+              isFull
+              renderIcon={
+                <Text
+                  className={`iconfont icon-my-server ${styles.titleIcon}`}
+                />
+              }
+            >
+              <ScrollView scrollX>
+                <View className="at-row">
+                  <View className={styles.imgItem}>
+                    <AtAvatar
+                      size="small"
+                      className={styles.imgItemAvatar}
+                      circle
+                    />
+                    <View className={styles.itemText}>一对一客服</View>
+                  </View>
+                  <View className={styles.imgItem}>
+                    <AtAvatar
+                      size="small"
+                      className={styles.imgItemAvatar}
+                      circle
+                    />
+                    <View className={styles.itemText}>优惠券</View>
+                  </View>
+                  <View className={styles.imgItem}>
+                    <AtAvatar
+                      size="small"
+                      className={styles.imgItemAvatar}
+                      circle
+                    />
+                    <View className={styles.itemText}>收货地址</View>
+                  </View>
+                  <View className={styles.imgItem}>
+                    <AtAvatar
+                      size="small"
+                      className={styles.imgItemAvatar}
+                      circle
+                    />
+                    <View className={styles.itemText}>会员</View>
+                  </View>
+                </View>
+              </ScrollView>
+            </AtCard>
+          </View>
         </View>
       )}
     </Observer>
