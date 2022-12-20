@@ -44,6 +44,9 @@ const errorHandler = (response: any) => {
 const getUrl = (path) => {
   switch (process.env.TARO_ENV) {
     case 'h5':
+      if (process.env.NODE_ENV !== 'development') {
+        return `${process.env.BASE_URL}${path}`;
+      }
       return path;
     case 'weapp':
       return `${process.env.BASE_URL}${path}`;
@@ -58,7 +61,7 @@ const getUrl = (path) => {
  * @param options
  */
 async function request<T>(path: any, options: any = {}): Promise<T | null> {
-  let authorization = null;
+  let authorization;
   // 是否要受权
   if (options && options.authorize !== false) {
     // await Auth.run();
@@ -70,7 +73,7 @@ async function request<T>(path: any, options: any = {}): Promise<T | null> {
     data: options.params || options.data,
     header: {
       ...options.header,
-      authorization,
+      source: 'user_vote',
     },
     ...options,
   };
@@ -81,15 +84,22 @@ async function request<T>(path: any, options: any = {}): Promise<T | null> {
   // 执行请求
   const [err, data] = await awaitWrap(Taro.request(opt));
 
-  console.log(err, data);
-
   // 返回是否错误
   if (err) {
     errorHandler(err);
     return null;
   }
+
+  if (data?.data?.code !== 200) {
+    Taro.showToast({
+      title: data?.data?.message,
+      icon: 'none',
+    });
+    return null;
+  }
+
   // 返回 promise
-  return Promise.resolve(data);
+  return Promise.resolve(data?.data);
 }
 
 export default request;

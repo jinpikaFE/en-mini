@@ -48,6 +48,18 @@ const config = {
     publicPath: '/',
     staticDirectory: 'static',
     esnextModules: ['taro-ui'],
+    output: {
+      filename: 'js/[name].[hash].js',
+      chunkFilename: 'js/[name].[chunkhash].js',
+    },
+    imageUrlLoaderOption: {
+      limit: 5000,
+      name: 'static/images/[name].[hash].[ext]',
+    },
+    miniCssExtractPluginOption: {
+      filename: 'css/[name].[hash].css',
+      chunkFilename: 'css/[name].[chunkhash].css',
+    },
     postcss: {
       autoprefixer: {
         enable: true,
@@ -62,7 +74,7 @@ const config = {
       },
     },
     devServer: {
-      host: 'localhost',
+      host: '0.0.0.0', // localhost // 0.0.0.0
       port: 10086,
       proxy: {
         '/v1': {
@@ -72,10 +84,37 @@ const config = {
         },
       },
     },
+    router: {
+      mode: 'browser',
+    },
+  },
+  copy: {
+    patterns: [
+      {
+        from: 'src/微信文件.txt',
+        to: 'dist/微信文件.txt',
+      },
+      {
+        from: 'src/微信文件.txt',
+        to: 'dist/微信文件.txt',
+      },
+      {
+        from: 'src/微信文件.txt',
+        to: 'dist-pro/微信文件.txt',
+      },
+      {
+        from: 'src/微信文件.txt',
+        to: 'dist-pro/微信文件.txt',
+      },
+    ],
   },
 };
 
 module.exports = function (merge) {
+  /** APP_ENV 必须前置在 NODE_ENV 逻辑前 */
+  if (process.env.APP_ENV === 'pre') {
+    return merge({}, config, require('./pre'));
+  }
   if (process.env.NODE_ENV === 'development') {
     return merge({}, config, require('./dev'));
   }
